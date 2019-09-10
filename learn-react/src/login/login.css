@@ -1,0 +1,48 @@
+.navbar-brand{
+    display: block;
+    overflow: hidden;
+    background-color: #3b5998;
+    width: 100%;
+}
+.navbar-brand a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    background-color: #3b5998;
+}
+
+.navbar-brand a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.navbar-brand a.active {
+    background-color: #ddd;
+    color: white;
+}
+
+#login{
+    text-align: center;
+}
+#login h1{
+    text-align: center;
+    display: block;
+    width: 100%;
+}
+#login .checkbox{
+    text-align: left;
+}
+#login .btn-success{
+    width: 100%;
+}
+#forgotpass{
+    padding: 15px 15px;
+    width: 350px;
+}
+#register{
+    padding: 15px 15px;
+    width: 350px;
+}
