@@ -6,19 +6,16 @@ class Login extends React.Component{
     constructor(props){
         super(props);
         this.state = {name: '', password: ''};
-        this.handleChangeName = this.handleChangeName.bind(this);
-        this.handleChangePassword = this.handleChangePassword.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
-    handleChangeName(event) {
+    handleChangeName = (event) => {
         this.setState({name: event.target.value});
     }
 
-    handleChangePassword(event) {
+    handleChangePassword = (event) => {
         this.setState({password: event.target.value});
     }
     
-    handleSubmit(event) {
+    handleSubmit = (event) => {
         alert('A name was submitted: ' + this.state.name + ', ' + this.state.password);
         event.preventDefault();
     }

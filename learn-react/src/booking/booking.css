@@ -1,0 +1,72 @@
+.react-calendar {
+    border: none;
+}
+
+.container {
+    width: 80%;
+}
+
+#tieude h1 {
+    text-align: center;
+    display: block;
+    width: 100%;
+}
+
+#tieude form {
+    width: 100%;
+}
+
+#tieude select {
+    height: 40px;
+    width: 30%;
+    padding-bottom: 5px;
+}
+
+#tieude button {
+    height: 40px;
+    width: 20%;
+}
+
+#table h1 {
+    text-align: center;
+    display: block;
+    width: 100%;
+}
+
+#table select {
+    padding: 6px 6px;
+    width: 80%;
+}
+
+#table table {
+    width: 100%;
+    padding: 0px, 0px;
+    font-size: 13px;
+}
+
+#table th, td {
+    text-align: center;
+    padding: 0px, 0px;
+}
+
+#table {
+    text-align: center;
+}
+
+#table .hover td:hover, th:hover {
+    color: #212529;
+    background-color: rgba(0, 0, 0, 0.075);
+}
+
+#table table th {
+    background-color: lightblue;
+}
+
+#addform table {
+    width: 100%;
+}
+
+#addform th {
+    width: 600px;
+    text-align: center;
+}
