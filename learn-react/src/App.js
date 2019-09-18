@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 // import logo from './logo.svg';
 import './App.css';
 import Login from './login/login';
-import Booking from './booking/booking';
+import Schedule from './booking/booking';
 
 function App() {
     return (
@@ -27,7 +27,7 @@ function App() {
             <Router>
                 <Switch>
                     <Route path="/" exact component={Login} />
-                    <Route path="/booking" component={Booking} />
+                    <Route path="/booking" component={Schedule} />
                 </Switch>
             </Router>
         </Fragment>
