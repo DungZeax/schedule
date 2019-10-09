@@ -9,18 +9,18 @@ const bookingReducer = (state = defaultState, {type, detail}) => {
         case 'MOVE_EVENT':
             return {
                 ...state,
-                ...detail
+                events: detail
             };
         case 'RESIZE_EVENT':
             return {
                 ...state,
-                ...detail
-            }
+                events: detail
+            };
         case 'NEW_EVENT':
             return {
                 ...state,
-                ...detail
-            }
+                events: detail
+            };
         default:
             return state;
     }

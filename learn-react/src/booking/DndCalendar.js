@@ -14,7 +14,8 @@ class DndCalendar extends React.Component {
         super(props);
 
         this.moveEvent = this.moveEvent.bind(this);
-        this.newEvent = this.newEvent.bind(this)
+        this.newEvent = this.newEvent.bind(this);
+        this.resizeEvent = this.resizeEvent.bind(this);
     }
 
     moveEvent({ event, start, end, isAllDay: droppedOnAllDaySlot }) {
@@ -34,10 +35,7 @@ class DndCalendar extends React.Component {
         const nextEvents = [...events];
         nextEvents.splice(idx, 1, updatedEvent);
 
-        this.setState({
-            events: nextEvents,
-        })
-
+        this.props.moveTask(nextEvents);
         // alert(`${event.title} was dropped onto ${updatedEvent.start}`)
     }
 
@@ -50,9 +48,7 @@ class DndCalendar extends React.Component {
                 : existingEvent
         });
 
-        this.setState({
-            events: nextEvents,
-        })
+        this.props.resizeTask(nextEvents);
 
         //alert(`${event.title} was resized to ${start}-${end}`)
     };
@@ -69,9 +65,7 @@ class DndCalendar extends React.Component {
                 start: event.start,
                 end: event.end,
             };
-            this.setState({
-                events: this.props.events.concat([hour]),
-            })
+            this.props.newTask(this.props.events.concat([hour]));
         }
     }
 
@@ -100,19 +94,19 @@ const mapStateToProps = ({bookingReducer}) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        moveEvent(data) {
+        moveTask(data) {
             return dispatch({
                 type: 'MOVE_EVENT',
                 detail: data,
             })
         },
-        resizeEvent(data) {
+        resizeTask(data) {
             return dispatch({
                 type: 'RESIZE_EVENT',
                 detail: data,
             })
         },
-        newEvent(data) {
+        newTask(data) {
             return dispatch({
                 type: 'NEW_EVENT',
                 detail: data
