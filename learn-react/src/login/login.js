@@ -1,27 +1,26 @@
 import React from 'react';
 import './login.css';
 import Register from '../register';
+import {connect} from 'react-redux';
 
 class Login extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {name: '', password: ''};
-    }
-    handleChangeName = (event) => {
-        this.setState({name: event.target.value});
+
+    handleChangeLoginData = (event) => {
+        const { name, value } = event.target;
+        this.props.changeLoginData({
+            [name]: value
+        })
     }
 
-    handleChangePassword = (event) => {
-        this.setState({password: event.target.value});
-    }
-    
     handleSubmit = (event) => {
-        alert('A name was submitted: ' + this.state.name + ', ' + this.state.password);
         event.preventDefault();
+        this.props.login();
     }
+
     render() {
         return (
             <div className="container">
+                {this.props.isAuth && <h1>Logged {this.props.username}</h1>}
                 <div className="row" id="login" >
                     <div className="col-md-2"></div>
                     <div className="col-md-8">
@@ -32,10 +31,10 @@ class Login extends React.Component{
                         <br /><br /><br />
                         <form method="POST" name="frm_login" onSubmit={this.handleSubmit}>
                             <div className="form-group">
-                                <input type="text" className="form-control" id="username" placeholder="Username" value={this.state.value} onChange={this.handleChangeName}/>
+                                <input type="text"  name='username' className="form-control" id="username" placeholder="Username" value={this.props.username} onChange={this.handleChangeLoginData}/>
                             </div>
                             <div className="form-group">
-                                <input type="password" className="form-control" id="password" placeholder="Password" value={this.state.value} onChange={this.handleChangePassword}/>
+                                <input type="password" name='password' className="form-control" id="password" placeholder="Password" value={this.props.password} onChange={this.handleChangeLoginData}/>
                             </div>
                             <div className="checkbox">
                                 <label>
@@ -54,4 +53,26 @@ class Login extends React.Component{
     }
 }
 
-export default Login;
+const mapStateToProps = ({loginReducer}) => {
+    return {
+        ...loginReducer
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        changeLoginData(data) {
+            return dispatch({
+                type: 'CHANGE_DATA_LOGIN',
+                detail: data
+            })
+        },
+        login() {
+            return dispatch({
+                type: 'LOGIN'
+            })
+        }
+
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Login);

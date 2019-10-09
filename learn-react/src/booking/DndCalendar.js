@@ -1,10 +1,10 @@
-import React from 'react'
-import events from '../events'
-import {Calendar, momentLocalizer, Views} from 'react-big-calendar'
-import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
-
-import 'react-big-calendar/lib/addons/dragAndDrop/styles.scss'
+import React from 'react';
+import events from '../events';
+import {Calendar, momentLocalizer, Views} from 'react-big-calendar';
+import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
+import 'react-big-calendar/lib/addons/dragAndDrop/styles.scss';
 import moment from "moment";
+import {connect} from 'react-redux';
 
 const DragAndDropCalendar = withDragAndDrop(Calendar);
 
@@ -12,16 +12,13 @@ const localizer = momentLocalizer(moment);
 class DndCalendar extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            events: events,
-        }
 
         this.moveEvent = this.moveEvent.bind(this);
         this.newEvent = this.newEvent.bind(this)
     }
 
     moveEvent({ event, start, end, isAllDay: droppedOnAllDaySlot }) {
-        const { events } = this.state;
+        const { events } = this.props;
 
         const idx = events.indexOf(event);
         let allDay = event.allDay;
@@ -45,7 +42,7 @@ class DndCalendar extends React.Component {
     }
 
     resizeEvent = ({ event, start, end }) => {
-        const { events } = this.state;
+        const { events } = this.props;
 
         const nextEvents = events.map(existingEvent => {
             return existingEvent.id === event.id
@@ -63,7 +60,7 @@ class DndCalendar extends React.Component {
     newEvent(event) {
         const title = window.prompt('New Event name');
         if (title) {
-            let idList = this.state.events.map(a => a.id);
+            let idList = this.props.events.map(a => a.id);
             let newId = Math.max(...idList) + 1;
             let hour = {
                 id: newId,
@@ -73,7 +70,7 @@ class DndCalendar extends React.Component {
                 end: event.end,
             };
             this.setState({
-                events: this.state.events.concat([hour]),
+                events: this.props.events.concat([hour]),
             })
         }
     }
@@ -83,7 +80,7 @@ class DndCalendar extends React.Component {
             <DragAndDropCalendar
                 selectable
                 localizer={localizer}
-                events={this.state.events}
+                events={this.props.events}
                 onEventDrop={this.moveEvent}
                 resizable
                 onEventResize={this.resizeEvent}
@@ -95,4 +92,32 @@ class DndCalendar extends React.Component {
     }
 }
 
-export default DndCalendar
+const mapStateToProps = ({bookingReducer}) => {
+    return {
+        ...bookingReducer
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        moveEvent(data) {
+            return dispatch({
+                type: 'MOVE_EVENT',
+                detail: data,
+            })
+        },
+        resizeEvent(data) {
+            return dispatch({
+                type: 'RESIZE_EVENT',
+                detail: data,
+            })
+        },
+        newEvent(data) {
+            return dispatch({
+                type: 'NEW_EVENT',
+                detail: data
+            })
+        }
+    }
+};
+export default connect(mapStateToProps, mapDispatchToProps)(DndCalendar);
