@@ -1,6 +1,6 @@
 import React from 'react';
 import Calendar from "react-calendar";
-import Header from '../Components/Header';
+import Header from '../Header';
 import './booking.css';
 import Schedule from "./BasicCalendar";
 import DndCalendar from "./DndCalendar";

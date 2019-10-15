@@ -1,8 +1,8 @@
 import React, {Fragment} from 'react';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import './App.css';
-import Login from './login/login';
-import Schedule from './booking/booking';
+import Login from './Components/login/login';
+import Schedule from './Components/booking/booking';
 
 function App() {
     return (

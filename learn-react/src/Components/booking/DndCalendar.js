@@ -1,5 +1,5 @@
 import React from 'react';
-import events from '../events';
+import events from '../../events';
 import {Calendar, momentLocalizer, Views} from 'react-big-calendar';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.scss';
