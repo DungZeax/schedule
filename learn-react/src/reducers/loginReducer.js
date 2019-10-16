@@ -1,35 +1,31 @@
 const defaultState = {
-    username: '',
-    password: '',
+    response: {},
     fetching: false,
     isAuth: false,
     error: null,
 };
 
-const loginReducer = (state = defaultState, { type, detail }) => {
+const loginReducer = (state = defaultState, { type, data }) => {
     switch (type) {
-        case 'CHANGE_DATA_LOGIN':
-            return {
-                ...state,
-                ...detail
-            };
         case 'LOGIN':
             return {
                 ...state,
                 fetching: true,
             };
         case 'LOGIN_SUCCESS':
+            console.log(data);
             return {
                 ...state,
                 fetching: false,
-                isAuth: true
+                isAuth: true,
+                response: data
             };
         case 'LOGIN_FAILURE':
             return {
                 ...state,
                 fetching: false,
-                error: 'login failed'
-            }
+                response: data
+            };
         default:
             return state;
     }

@@ -3,6 +3,6 @@ import {watchLogin} from "./loginWatcher";
 
 export default function* rootSaga() {
     yield all([
-        watchLogin(),
+        ...watchLogin(),
     ])
 }

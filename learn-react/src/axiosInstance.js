@@ -1,1 +1,1 @@
-export const baseUrlAxios = "localhost:8000/api";
+export const baseUrlAxios = "http://localhost:8000/api";

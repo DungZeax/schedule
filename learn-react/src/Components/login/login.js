@@ -5,22 +5,29 @@ import {connect} from 'react-redux';
 
 class Login extends React.Component{
 
+    state = {
+        username: '',
+        password: ''
+    };
+
     handleChangeLoginData = (event) => {
         const { name, value } = event.target;
-        this.props.changeLoginData({
+        this.setState({
             [name]: value
         })
-    }
+    };
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.props.login();
-    }
+        this.props.login({
+            username: this.state.username,
+            password: this.state.password,
+        });
+    };
 
     render() {
         return (
             <div className="container">
-                {this.props.isAuth && <h1>Logged {this.props.username}</h1>}
                 <div className="row" id="login" >
                     <div className="col-md-2"></div>
                     <div className="col-md-8">
@@ -31,10 +38,10 @@ class Login extends React.Component{
                         <br /><br /><br />
                         <form method="POST" name="frm_login" onSubmit={this.handleSubmit}>
                             <div className="form-group">
-                                <input type="text"  name='username' className="form-control" id="username" placeholder="Username" value={this.props.username} onChange={this.handleChangeLoginData}/>
+                                <input type="text"  name='username' className="form-control" id="username" placeholder="Username" value={this.state.username} onChange={this.handleChangeLoginData}/>
                             </div>
                             <div className="form-group">
-                                <input type="password" name='password' className="form-control" id="password" placeholder="Password" value={this.props.password} onChange={this.handleChangeLoginData}/>
+                                <input type="password" name='password' className="form-control" id="password" placeholder="Password" value={this.state.password} onChange={this.handleChangeLoginData}/>
                             </div>
                             <div className="checkbox">
                                 <label>
@@ -61,15 +68,10 @@ const mapStateToProps = ({loginReducer}) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        changeLoginData(data) {
+        login(param) {
             return dispatch({
-                type: 'CHANGE_DATA_LOGIN',
-                detail: data
-            })
-        },
-        login() {
-            return dispatch({
-                type: 'LOGIN'
+                type: 'LOGIN',
+                param: param
             })
         }
 
