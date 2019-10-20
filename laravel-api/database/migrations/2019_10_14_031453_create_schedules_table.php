@@ -15,9 +15,10 @@ class CreateSchedulesTable extends Migration
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->dateTime('time_start');
-            $table->dateTime('time_end');
+            $table->string('title');
+            $table->boolean('allDay');
+            $table->dateTime('start');
+            $table->dateTime('end');
             $table->unsignedBigInteger('user_id');
 
             $table->foreign('user_id')->references('id')->on('users');

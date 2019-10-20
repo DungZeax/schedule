@@ -1,25 +1,56 @@
 import events from "../events";
 
 const defaultState = {
-    events: events
+    events: [],
+    fetching: false,
 };
 
-const bookingReducer = (state = defaultState, {type, detail}) => {
+const bookingReducer = (state = defaultState, {type, data}) => {
     switch (type) {
         case 'MOVE_EVENT':
             return {
                 ...state,
-                events: detail
+                events: data
             };
         case 'RESIZE_EVENT':
             return {
                 ...state,
-                events: detail
+                events: data
             };
         case 'NEW_EVENT':
             return {
                 ...state,
-                events: detail
+                fetching: true
+            };
+        case 'NEW_EVENT_SUCCESS':
+            return {
+                ...state,
+                fetching: false,
+                events: data
+            };
+        case 'NEW_EVENT_FAILURE':
+            return {
+                ...state,
+                fetching: false,
+                events: data
+            };
+        case 'GET_LIST':
+            return {
+                ...state,
+                fetching: true,
+                // events: data
+            };
+        case 'GET_LIST_SUCCESS':
+            return {
+                ...state,
+                fetching: false,
+                events: data
+            };
+        case 'GET_LIST_FAILURE':
+            return {
+                ...state,
+                fetching: false,
+                events: data
             };
         default:
             return state;

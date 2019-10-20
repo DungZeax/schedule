@@ -14,6 +14,7 @@ const loginReducer = (state = defaultState, { type, data }) => {
             };
         case 'LOGIN_SUCCESS':
             console.log(data);
+            localStorage.setItem('token', data.access_token);
             return {
                 ...state,
                 fetching: false,
@@ -24,6 +25,14 @@ const loginReducer = (state = defaultState, { type, data }) => {
             return {
                 ...state,
                 fetching: false,
+                response: data
+            };
+        case 'LOGOUT':
+            console.log(data);
+            localStorage.removeItem('token');
+            return {
+                ...state,
+                isAuth: false,
                 response: data
             };
         default:

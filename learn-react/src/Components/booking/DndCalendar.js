@@ -3,6 +3,7 @@ import React from 'react';
 import {Calendar, momentLocalizer, Views} from 'react-big-calendar';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.scss';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from "moment";
 import {connect} from 'react-redux';
 
@@ -16,6 +17,10 @@ class DndCalendar extends React.Component {
         this.moveEvent = this.moveEvent.bind(this);
         this.newEvent = this.newEvent.bind(this);
         this.resizeEvent = this.resizeEvent.bind(this);
+    }
+
+    componentDidMount() {
+        this.props.getList();
     }
 
     moveEvent({ event, start, end, isAllDay: droppedOnAllDaySlot }) {
@@ -56,20 +61,23 @@ class DndCalendar extends React.Component {
     newEvent(event) {
         const title = window.prompt('New Event name');
         if (title) {
-            let idList = this.props.events.map(a => a.id);
-            let newId = Math.max(...idList) + 1;
+            // let idList = this.props.events.map(a => a.id);
+            // let newId = Math.max(...idList) + 1;
             let hour = {
-                id: newId,
+                // id: newId,
                 title: title,
                 allDay: event.slots.length === 1,
                 start: event.start,
                 end: event.end,
             };
-            this.props.newTask(this.props.events.concat([hour]));
+            // hour.start['h'] = hour.start['h'] + 12;
+            // hour.end['h'] = hour.end['h'] + 12;
+            this.props.newTask(hour);
         }
     }
 
     render() {
+        console.log('dm thu vien vl: ', this.props.events);
         return (
             <DragAndDropCalendar
                 selectable
@@ -97,19 +105,24 @@ const mapDispatchToProps = (dispatch) => {
         moveTask(data) {
             return dispatch({
                 type: 'MOVE_EVENT',
-                detail: data,
+                data: data,
             })
         },
         resizeTask(data) {
             return dispatch({
                 type: 'RESIZE_EVENT',
-                detail: data,
+                data: data,
             })
         },
-        newTask(data) {
+        newTask(param) {
             return dispatch({
                 type: 'NEW_EVENT',
-                detail: data
+                param: param
+            })
+        },
+        getList() {
+            return dispatch({
+                type: 'GET_LIST',
             })
         }
     }

@@ -26,7 +26,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     ], function () {
         Route::post('create', 'ScheduleController@create');
         Route::post('update/{id}', 'ScheduleController@update');
-        Route::get('getList', 'ScheduleController@getList');
+        Route::get('', 'ScheduleController@getList');
         Route::delete('delete/{id}', 'ScheduleController@delete');
     });
     Route::get('logout', 'Auth\AuthController@logout');
