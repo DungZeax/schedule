@@ -10,6 +10,7 @@ import {connect} from 'react-redux';
 const DragAndDropCalendar = withDragAndDrop(Calendar);
 
 const localizer = momentLocalizer(moment);
+
 class DndCalendar extends React.Component {
     constructor(props) {
         super(props);
@@ -23,10 +24,10 @@ class DndCalendar extends React.Component {
         this.props.getList();
     }
 
-    moveEvent({ event, start, end, isAllDay: droppedOnAllDaySlot }) {
-        const { events } = this.props;
+    moveEvent({event, start, end, isAllDay: droppedOnAllDaySlot}) {
+        // const { events } = this.props;
 
-        const idx = events.indexOf(event);
+        // const idx = events.indexOf(event);
         let allDay = event.allDay;
 
         if (!event.allDay && droppedOnAllDaySlot) {
@@ -35,21 +36,21 @@ class DndCalendar extends React.Component {
             allDay = false
         }
 
-        const updatedEvent = { ...event, start, end, allDay };
+        const updatedEvent = {...event, start, end, allDay};
 
-        const nextEvents = [...events];
-        nextEvents.splice(idx, 1, updatedEvent);
+        // const nextEvents = [...events];
+        // nextEvents.splice(idx, 1, updatedEvent);
 
-        this.props.moveTask(nextEvents);
+        this.props.moveTask(updatedEvent);
         // alert(`${event.title} was dropped onto ${updatedEvent.start}`)
     }
 
-    resizeEvent = ({ event, start, end }) => {
-        const { events } = this.props;
+    resizeEvent = ({event, start, end}) => {
+        const {events} = this.props;
 
         const nextEvents = events.map(existingEvent => {
             return existingEvent.id === event.id
-                ? { ...existingEvent, start, end }
+                ? {...existingEvent, start, end}
                 : existingEvent
         });
 
@@ -70,8 +71,7 @@ class DndCalendar extends React.Component {
                 start: event.start,
                 end: event.end,
             };
-            // hour.start['h'] = hour.start['h'] + 12;
-            // hour.end['h'] = hour.end['h'] + 12;
+
             this.props.newTask(hour);
         }
     }
@@ -102,16 +102,16 @@ const mapStateToProps = ({bookingReducer}) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        moveTask(data) {
+        moveTask(param) {
             return dispatch({
                 type: 'MOVE_EVENT',
-                data: data,
+                param: param,
             })
         },
-        resizeTask(data) {
+        resizeTask(param) {
             return dispatch({
                 type: 'RESIZE_EVENT',
-                data: data,
+                param: param,
             })
         },
         newTask(param) {

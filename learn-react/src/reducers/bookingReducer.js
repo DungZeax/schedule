@@ -10,6 +10,18 @@ const bookingReducer = (state = defaultState, {type, data}) => {
         case 'MOVE_EVENT':
             return {
                 ...state,
+                fetching: true,
+            };
+        case 'MOVE_EVENT_SUCCESS':
+            return {
+                ...state,
+                fetching: false,
+                events: data
+            };
+        case 'MOVE_EVENT_FAILURE':
+            return {
+                ...state,
+                fetching: false,
                 events: data
             };
         case 'RESIZE_EVENT':

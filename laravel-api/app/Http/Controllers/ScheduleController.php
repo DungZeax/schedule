@@ -10,14 +10,11 @@ class ScheduleController extends Controller
 {
     public function create(Request $request)
     {
-        $start = strtotime($request->start);
-        $end = strtotime($request->end);
-
         Schedule::create([
             'title' => $request->title,
             'allDay' => $request->allDay,
-            'start' => date('y-m-d h:m:s',$start),
-            'end' => date('y-m-d h:m:s',$end),
+            'start' => $request->start,
+            'end' => $request->end,
             'user_id' => Auth::id(),
         ]);
 
@@ -37,18 +34,16 @@ class ScheduleController extends Controller
             return response()->json(['message' => 'Forbidden'], 403);
         }
 
-        $start = strtotime($request->start);
-        $end = strtotime($request->end);
-
         $schedule->update([
             'title' => $request->title,
             'allDay' => $request->allDay,
-            'start' => date('y-m-d h:m:s',$start),
-            'end' => date('y-m-d h:m:s',$end),
+            'start' => $request->start,
+            'end' => $request->end,
         ]);
+        $schedules = Schedule::all()->where('user_id', Auth::id());
         return response()->json([
             'message' => 'updated',
-            'data' => $schedule
+            'data' => $schedules
         ], 200);
     }
 
