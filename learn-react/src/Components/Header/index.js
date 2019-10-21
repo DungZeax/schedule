@@ -6,7 +6,7 @@ class Header extends React.Component{
 
     logout = () => {
         this.props.logout();
-    }
+    };
     render() {
         return (
             <div className="col-md-12">

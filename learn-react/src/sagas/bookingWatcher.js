@@ -3,7 +3,6 @@ import {baseUrlAxios} from '../axiosInstance';
 import axios from 'axios';
 
 function newEventApi(param) {
-    console.log('new event param', JSON.stringify(param));
     param.start = param.start.getFullYear() + '-' + (param.start.getMonth()+1) + '-' + param.start.getDate() + ' '
         + param.start.getHours() + ':' + param.start.getMinutes() + ':' + param.start.getSeconds();
     param.end = param.end.getFullYear() + '-' + (param.end.getMonth()+1) + '-' + param.end.getDate() + ' '
@@ -24,7 +23,6 @@ function* newEvent(action) {
             event.start = new Date(event.start);
             event.end = new Date(event.end);
         });
-        console.log('new event success data', data);
 
         yield put({
             type: "NEW_EVENT_SUCCESS",
@@ -38,14 +36,44 @@ function* newEvent(action) {
     }
 }
 
+function deleteEventApi(param) {
+    console.log('url', baseUrlAxios+'/booking/delete/' + param.id);
+    return axios.delete(baseUrlAxios+'/booking/delete/' + param.id,{
+        headers: {
+            'Content-Type': "application/json",
+            'Authorization': 'bearer ' + localStorage.getItem('token')
+        }
+    });
+}
+function* deleteEvent(action) {
+    try{
+        const response = yield call(deleteEventApi,action.param);
+        const data = response.data;
+        data.data.forEach(function (event) {
+            event.start = new Date(event.start);
+            event.end = new Date(event.end);
+        });
+
+        yield put({
+            type: "DELETE_EVENT_SUCCESS",
+            data: data.data
+        });
+    } catch (error) {
+        yield put({
+            type: "DELETE_EVENT_FAILURE",
+            data: error
+        });
+    }
+}
+
 function moveEventApi(param) {
-    console.log('move event param', JSON.stringify(param));
+
     param.start = param.start.getFullYear() + '-' + (param.start.getMonth()+1) + '-' + param.start.getDate() + ' '
         + param.start.getHours() + ':' + param.start.getMinutes() + ':' + param.start.getSeconds();
     param.end = param.end.getFullYear() + '-' + (param.end.getMonth()+1) + '-' + param.end.getDate() + ' '
         + param.end.getHours() + ':' + param.end.getMinutes() + ':' + param.end.getSeconds();
 
-    return axios.post(baseUrlAxios+'/booking/update/{' + param.id + '}', param,{
+    return axios.post(baseUrlAxios+'/booking/update/' + param.id, param,{
         headers: {
             'Content-Type': "application/json",
             'Authorization': 'bearer ' + localStorage.getItem('token')
@@ -60,6 +88,7 @@ function* moveEvent(action) {
             event.start = new Date(event.start);
             event.end = new Date(event.end);
         });
+
         console.log('move event success data', data);
 
         yield put({
@@ -69,6 +98,41 @@ function* moveEvent(action) {
     } catch (error) {
         yield put({
             type: "MOVE_EVENT_FAILURE",
+            data: error
+        });
+    }
+}
+
+function resizeEventApi(param) {
+    param.start = param.start.getFullYear() + '-' + (param.start.getMonth()+1) + '-' + param.start.getDate() + ' '
+        + param.start.getHours() + ':' + param.start.getMinutes() + ':' + param.start.getSeconds();
+    param.end = param.end.getFullYear() + '-' + (param.end.getMonth()+1) + '-' + param.end.getDate() + ' '
+        + param.end.getHours() + ':' + param.end.getMinutes() + ':' + param.end.getSeconds();
+
+    return axios.post(baseUrlAxios+'/booking/update/{' + param.id + '}', param,{
+        headers: {
+            'Content-Type': "application/json",
+            'Authorization': 'bearer ' + localStorage.getItem('token')
+        }
+    });
+}
+function* resizeEvent(action) {
+    try{
+        const response = yield call(resizeEventApi,action.param);
+        const data = response.data;
+        data.data.forEach(function (event) {
+            event.start = new Date(event.start);
+            event.end = new Date(event.end);
+        });
+        console.log('resize event success data', data);
+
+        yield put({
+            type: "RESIZE_EVENT_SUCCESS",
+            data: data.data
+        });
+    } catch (error) {
+        yield put({
+            type: "RESIZE_EVENT_FAILURE",
             data: error
         });
     }
@@ -105,8 +169,38 @@ function* getList(action) {
         })
     }
 }
+
+function getUserApi() {
+
+    return axios.get(baseUrlAxios+'/user', {
+        headers: {
+            'Content-Type': "application/json",
+            'Authorization': 'bearer ' + localStorage.getItem('token')
+        }
+    });
+}
+
+function* getUser(action) {
+    try {
+        const response = yield call(getUserApi);
+        const data = response.data;
+
+        yield put({
+            type: "GET_USER_SUCCESS",
+            data: data.username
+        });
+    } catch (error) {
+        yield put({
+            type: "GET_USER_FAILURE",
+            data: error
+        })
+    }
+}
 export function* watchBooking() {
     yield takeEvery('NEW_EVENT', newEvent);
     yield takeEvery('GET_LIST', getList);
     yield takeEvery('MOVE_EVENT', moveEvent);
+    yield takeEvery('RESIZE_EVENT', resizeEvent);
+    yield takeEvery('GET_USER', getUser);
+    yield takeEvery('DELETE_EVENT', deleteEvent);
 }

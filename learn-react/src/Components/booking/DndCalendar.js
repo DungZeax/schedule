@@ -46,15 +46,16 @@ class DndCalendar extends React.Component {
     }
 
     resizeEvent = ({event, start, end}) => {
-        const {events} = this.props;
+        // const {events} = this.props;
 
-        const nextEvents = events.map(existingEvent => {
-            return existingEvent.id === event.id
-                ? {...existingEvent, start, end}
-                : existingEvent
-        });
+        // const nextEvents = events.map(existingEvent => {
+        //     return existingEvent.id === event.id
+        //         ? {...existingEvent, start, end}
+        //         : existingEvent
+        // });
+        const existingEvent = {...event, start, end};
 
-        this.props.resizeTask(nextEvents);
+        this.props.resizeTask(existingEvent);
 
         //alert(`${event.title} was resized to ${start}-${end}`)
     };
@@ -76,27 +77,42 @@ class DndCalendar extends React.Component {
         }
     }
 
+    onSelectEvent(event) {
+        const r = window.confirm("Would you like to remove this event?");
+        if(r === true){
+            this.props.deleteTask(event);
+            // this.setState((prevState, props) => {
+            //     const events = [...prevState.events];
+            //     const idx = events.indexOf(pEvent);
+            //     events.splice(idx, 1);
+            //     return { events };
+            // });
+        }
+    }
+
     render() {
-        console.log('dm thu vien vl: ', this.props.events);
         return (
             <DragAndDropCalendar
                 selectable
                 localizer={localizer}
-                events={this.props.events}
+                events={this.props.bookingReducer.events}
                 onEventDrop={this.moveEvent}
                 resizable
                 onEventResize={this.resizeEvent}
                 onSelectSlot={this.newEvent}
                 onDragStart={console.log}
                 defaultView={Views.WEEK}
+                date={new Date(this.props.datePickerReducer.date)}
+                onNavigate={() => { new Date(this.props.datePickerReducer.date) }}
+                onSelectEvent = {event => this.onSelectEvent(event)}
             />
         )
     }
 }
 
-const mapStateToProps = ({bookingReducer}) => {
+const mapStateToProps = (state) => {
     return {
-        ...bookingReducer
+        ...state
     }
 };
 
@@ -117,6 +133,12 @@ const mapDispatchToProps = (dispatch) => {
         newTask(param) {
             return dispatch({
                 type: 'NEW_EVENT',
+                param: param
+            })
+        },
+        deleteTask(param) {
+            return dispatch({
+                type: 'DELETE_EVENT',
                 param: param
             })
         },

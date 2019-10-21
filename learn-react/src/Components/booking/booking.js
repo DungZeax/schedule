@@ -4,8 +4,14 @@ import Header from '../Header';
 import './booking.css';
 // import Schedule from "./BasicCalendar";
 import DndCalendar from "./DndCalendar";
+import {connect} from "react-redux"
 
 class Booking extends React.Component {
+
+    handleChange = (date) => {
+        this.props.onChange(date);
+    };
+
     render() {
         return (
             <div className="col-md-12" id="table">
@@ -15,7 +21,10 @@ class Booking extends React.Component {
                 <br/><br/><br/>
                 <div className="row">
                     <div className="col-md-2">
-                        <Calendar/>
+                        <Calendar
+                            onChange={this.handleChange}
+                            value={this.props.date}
+                        />
                     </div>
                     <div className="col-md-10">
                         <DndCalendar/>
@@ -26,4 +35,21 @@ class Booking extends React.Component {
     }
 }
 
-export default Booking
+const mapStateToProps = ({datePickerReducer}) => {
+    return {
+        ...datePickerReducer
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onChange(data) {
+            return dispatch({
+                type: 'ON_CHANGE',
+                data: data
+            })
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Booking)

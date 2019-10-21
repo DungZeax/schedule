@@ -28,11 +28,23 @@ const loginReducer = (state = defaultState, { type, data }) => {
                 response: data
             };
         case 'LOGOUT':
+            return {
+                ...state,
+                fetching: true,
+            };
+        case 'LOGOUT_SUCCESS':
             console.log(data);
             localStorage.removeItem('token');
             return {
                 ...state,
+                fetching: false,
                 isAuth: false,
+                response: data
+            };
+        case 'LOGOUT_FAILURE':
+            return {
+                ...state,
+                fetching: false,
                 response: data
             };
         default:

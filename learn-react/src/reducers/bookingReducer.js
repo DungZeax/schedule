@@ -1,5 +1,3 @@
-import events from "../events";
-
 const defaultState = {
     events: [],
     fetching: false,
@@ -27,6 +25,18 @@ const bookingReducer = (state = defaultState, {type, data}) => {
         case 'RESIZE_EVENT':
             return {
                 ...state,
+                fetching: true,
+            };
+        case 'RESIZE_EVENT_SUCCESS':
+            return {
+                ...state,
+                fetching: false,
+                events: data
+            };
+        case 'RESIZE_EVENT_FAILURE':
+            return {
+                ...state,
+                fetching: false,
                 events: data
             };
         case 'NEW_EVENT':
@@ -41,6 +51,23 @@ const bookingReducer = (state = defaultState, {type, data}) => {
                 events: data
             };
         case 'NEW_EVENT_FAILURE':
+            return {
+                ...state,
+                fetching: false,
+                events: data
+            };
+        case 'DELETE_EVENT':
+            return {
+                ...state,
+                fetching: true
+            };
+        case 'DELETE_EVENT_SUCCESS':
+            return {
+                ...state,
+                fetching: false,
+                events: data
+            };
+        case 'DELETE_EVENT_FAILURE':
             return {
                 ...state,
                 fetching: false,

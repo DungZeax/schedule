@@ -55,9 +55,11 @@ class ScheduleController extends Controller
         }
         $schedule->delete();
 
+        $schedules = Schedule::all()->where('user_id', Auth::id());
+
         return response()->json([
             'message' => 'Deleted',
-            'data' => $schedule,
+            'data' => $schedules,
         ], 200);
     }
 
