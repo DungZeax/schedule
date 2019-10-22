@@ -103,7 +103,7 @@ class DndCalendar extends React.Component {
                 onDragStart={console.log}
                 defaultView={Views.WEEK}
                 date={new Date(this.props.datePickerReducer.date)}
-                onNavigate={() => { new Date(this.props.datePickerReducer.date) }}
+                onNavigate={(date) => this.props.changeDate(date)}
                 onSelectEvent = {event => this.onSelectEvent(event)}
             />
         )
@@ -145,6 +145,13 @@ const mapDispatchToProps = (dispatch) => {
         getList() {
             return dispatch({
                 type: 'GET_LIST',
+            })
+        },
+        changeDate(date) {
+            return dispatch({
+                type: 'ON_CHANGE',
+                data: date
+
             })
         }
     }

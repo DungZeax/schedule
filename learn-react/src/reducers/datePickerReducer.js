@@ -5,6 +5,7 @@ const defaultState = {
 const datePickerReducer = (state = defaultState, {type, data}) => {
     switch (type) {
         case 'ON_CHANGE':
+            console.log(data);
             return {
                 ...state,
                 date: data
