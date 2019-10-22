@@ -2,7 +2,6 @@ import React from 'react';
 import Calendar from "react-calendar";
 import Header from '../Header';
 import './booking.css';
-// import Schedule from "./BasicCalendar";
 import DndCalendar from "./DndCalendar";
 import {connect} from "react-redux"
 
@@ -50,6 +49,6 @@ const mapDispatchToProps = (dispatch) => {
             })
         }
     }
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Booking)

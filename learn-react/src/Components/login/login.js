@@ -33,7 +33,7 @@ class Login extends React.Component{
                     <div className="col-md-8">
                         <br /><br /><br />
                         <div className="row">
-                            <h1>Meeting Room Booking</h1>
+                            <h1>My Calendar</h1>
                         </div>
                         <br /><br /><br />
                         <form method="POST" name="frm_login" onSubmit={this.handleSubmit}>
