@@ -34,9 +34,9 @@ class Booking extends React.Component {
     }
 }
 
-const mapStateToProps = ({datePickerReducer}) => {
+const mapStateToProps = ({bookingReducer}) => {
     return {
-        ...datePickerReducer
+        ...bookingReducer
     }
 };
 

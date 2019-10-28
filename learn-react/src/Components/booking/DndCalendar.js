@@ -1,5 +1,4 @@
 import React from 'react';
-// import events from '../../events';
 import {Calendar, momentLocalizer, Views} from 'react-big-calendar';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.scss';
@@ -72,14 +71,14 @@ class DndCalendar extends React.Component {
             <DragAndDropCalendar
                 selectable
                 localizer={localizer}
-                events={this.props.bookingReducer.events}
+                events={this.props.events}
                 onEventDrop={this.moveEvent}
                 resizable
                 onEventResize={this.resizeEvent}
                 onSelectSlot={this.newEvent}
                 onDragStart={console.log}
                 defaultView={Views.WEEK}
-                date={new Date(this.props.datePickerReducer.date)}
+                date={new Date(this.props.date)}
                 onNavigate={(date) => this.props.changeDate(date)}
                 onSelectEvent = {event => this.onSelectEvent(event)}
             />
@@ -87,9 +86,9 @@ class DndCalendar extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({bookingReducer}) => {
     return {
-        ...state
+        ...bookingReducer
     }
 };
 

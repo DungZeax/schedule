@@ -1,6 +1,7 @@
 const defaultState = {
     events: [],
     fetching: false,
+    date: new Date()
 };
 
 const bookingReducer = (state = defaultState, {type, data}) => {
@@ -90,6 +91,12 @@ const bookingReducer = (state = defaultState, {type, data}) => {
                 ...state,
                 fetching: false,
                 events: data
+            };
+        case 'ON_CHANGE':
+            console.log(data);
+            return {
+                ...state,
+                date: data
             };
         default:
             return state;
